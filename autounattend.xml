@@ -663,11 +663,18 @@ If rc <> 0 Then Falha "diskpart saiu com codigo " & rc
 If dadosPart > 0 Then
   ' (e) a garantia final: Dados tem de continuar no mesmo lugar antes de qualquer gravacao no disco
   aindaLa = False
-  For Each ld In wmi.ExecQuery("SELECT DeviceID FROM Win32_LogicalDisk WHERE VolumeName='" & DADOS & "'")
-    For Each pt In wmi.ExecQuery("ASSOCIATORS OF {Win32_LogicalDisk.DeviceID='" & ld.DeviceID & "'} WHERE AssocClass=Win32_LogicalDiskToPartition")
-      If CInt(pt.DiskIndex) = CInt(alvo) And CDbl(pt.StartingOffset) = dadosOff Then aindaLa = True
+  If dadosLetra = "" Then
+    ' area de dados em ext4: sem volume no Windows, entao nao ha rotulo para procurar; vale a particao no mesmo offset
+    For Each pt In wmi.ExecQuery("SELECT StartingOffset FROM Win32_DiskPartition WHERE DiskIndex=" & alvo)
+      If CDbl(pt.StartingOffset) = dadosOff Then aindaLa = True
     Next
-  Next
+  Else
+    For Each ld In wmi.ExecQuery("SELECT DeviceID FROM Win32_LogicalDisk WHERE VolumeName='" & DADOS & "'")
+      For Each pt In wmi.ExecQuery("ASSOCIATORS OF {Win32_LogicalDisk.DeviceID='" & ld.DeviceID & "'} WHERE AssocClass=Win32_LogicalDiskToPartition")
+        If CInt(pt.DiskIndex) = CInt(alvo) And CDbl(pt.StartingOffset) = dadosOff Then aindaLa = True
+      Next
+    Next
+  End If
   If Not aindaLa Then Falha "ALERTA: o volume '" & DADOS & "' nao aparece mais no disco " & alvo & " depois do diskpart. Parando antes do DISM."
   ' e nao basta DADOS estar la: tudo que estava atras da fronteira tem de continuar existindo. E isto que
   ' protege a HOME do Arch, que o Windows nem consegue ler e portanto nao reconheceria pelo rotulo.

@@ -299,7 +299,7 @@ As garantias, na ordem em que o `instala.vbs` as aplica:
 | b | Os números de partição vêm do `list partition` do próprio `diskpart`, não do WMI: o `Win32_DiskPartition` não lista a MSR, então "índice + 1" não bate |
 | c | O total do `diskpart` tem de bater com o do WMI, admitindo só a MSR de diferença, e a `Files` tem de ser a primeira partição atrás da fronteira; qualquer outra coisa é layout desconhecido e nada é apagado |
 | d | Se o `diskpart` vê um volume `Files` que o WMI não consegue mapear a disco nenhum, nada é apagado |
-| e | Depois do `diskpart`, a `Files` tem de continuar no mesmo offset **e** o número de partições atrás da fronteira tem de ser o mesmo de antes — senão para antes do DISM |
+| e | Depois do `diskpart`, a `Files` tem de continuar no mesmo offset **e** o número de partições atrás da fronteira tem de ser o mesmo de antes — senão para antes do DISM. Em ext4 ela não tem volume no Windows, então a conferência é pela partição no mesmo offset, não pelo rótulo |
 
 Por que contar em vez de comparar offsets: o `list partition` mostra o offset **arredondado**
 (`120 GB`), então não dá para casar com o offset em bytes do WMI. Mas o `diskpart` numera por
