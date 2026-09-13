@@ -1330,7 +1330,11 @@ Etapa 'Energia' {
     if ($cs.AutomaticManagedPagefile) { $cs | Set-CimInstance -Property @{ AutomaticManagedPagefile = $false } }
     Get-CimInstance Win32_PageFileSetting | Where-Object Name -notlike 'C:*' | Remove-CimInstance
     $pf = Get-CimInstance Win32_PageFileSetting | Where-Object Name -like 'C:*'
-    if ($pf) { $pf | Set-CimInstance -Property @{ InitialSize = $pfMB; MaximumSize = $pfMB } }
+    # Set-CimInstance com os MESMOS valores devolve "Valor fora do intervalo" (HRESULT 0x8004102b): o WMI
+    # recusa reescrever um Win32_PageFileSetting que ja esta no valor pedido, ou com troca pendente de
+    # reinicio. Na segunda rodada do setup isso fechava a etapa 12 em AVISO sem nada de errado.
+    if ($pf -and $pf.InitialSize -eq $pfMB -and $pf.MaximumSize -eq $pfMB) { Passo "pagefile ja esta em $($pfMB / 1024) GB fixos no C:; nada a mudar" }
+    elseif ($pf) { $pf | Set-CimInstance -Property @{ InitialSize = $pfMB; MaximumSize = $pfMB } }
     else { New-CimInstance -ClassName Win32_PageFileSetting -Property @{ Name = 'C:\pagefile.sys'; InitialSize = $pfMB; MaximumSize = $pfMB } | Out-Null }
     Silencioso { Disable-MMAgent -MemoryCompression }
 }
