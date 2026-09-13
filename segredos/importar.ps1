@@ -34,10 +34,10 @@ if (-not $Chave) {
 if (-not $Chave) { throw 'nao achei dotfiles\chave.txt em nenhuma unidade; espete o pendrive' }
 
 if (-not $Entrada) {
-    $Entrada = Get-ChildItem 'D:\Segredos\chrome-*.age' -ErrorAction Ignore |
+    $Entrada = Get-ChildItem 'D:\Perfil\Segredos\chrome-*.age' -ErrorAction Ignore |
                Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
 }
-if (-not $Entrada) { throw 'nao achei D:\Segredos\chrome-*.age' }
+if (-not $Entrada) { throw 'nao achei D:\Perfil\Segredos\chrome-*.age' }
 
 if (Get-Process chrome -ErrorAction Ignore) {
     Write-Host 'Chrome esta aberto. Fechando para soltar o lock dos bancos.' -ForegroundColor Yellow

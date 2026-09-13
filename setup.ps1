@@ -17,7 +17,7 @@
 
    1. ponto de restauração antes de mexer    15. Lightshot: só Shift+PrintScreen
    2. garante que o winget funciona          16. Chrome (Proton Pass) e Discord (Vencord do fork)
-   3. Git e clone em ~\Projetos\MyWinISO     17. Jogos: RedM e biblioteca do Steam em D:
+   3. Git e clone em ~\Projetos\MyWinISO     17. Jogos: RedM, FiveM e Steam em D:
    4. Claude Code (CLI)                      18. git config
    5. driver de vídeo, direto da NVIDIA      19. Office
    6. monitores: resolução, Hz e posição     20. Área de Trabalho Remota e política de senha
@@ -176,7 +176,7 @@ $PERFIS = @{
         'Preferências do usuário'
         'Energia'
         'Programas (apps.json)'
-        'Jogos: RedM e biblioteca do Steam'
+        'Jogos: RedM, FiveM e biblioteca do Steam'
         'Área de Trabalho Remota e contas'
         'NVIDIA App'
         'Barra de tarefas e tarefa de logon'
@@ -1706,14 +1706,14 @@ Etapa 'Chrome e Discord: Proton Pass, extensões e Vencord' {
     }
 }
 
-# --- 17. RedM ----------------------------------------------------------------------------------------
+# --- 17. RedM e FiveM ----------------------------------------------------------------------------------------
 # O RedM.exe do site é um bootstrapper: no primeiro clique ele cria o RedM.app ao lado de si mesmo e
 # baixa o jogo, uns GB, numa janela própria. Não existe instalação silenciosa: o binário só entende
 # -ctracpkm, nada de /S nem /quiet, e a página do CitizenFX não documenta nenhum. Então o setup faz o que
 # dá para fazer sozinho: põe o executável numa casa definitiva (não na área de trabalho, que desde a
 # etapa 7 não mostra ícone nenhum) e cria o atalho no menu Iniciar, que é o caminho estável que a etapa
 # 24 fixa na barra. O que sobra para você é um clique.
-Etapa 'Jogos: RedM e biblioteca do Steam' {
+Etapa 'Jogos: RedM, FiveM e biblioteca do Steam' {
     # com a partição Dados, o RedM (e o RedM.app que ele cria ao lado) vive em D:\Jogos e sobrevive à formatação
     $dir = if ($Dados) { Join-Path $Dados 'Jogos\RedM' } else { Join-Path $env:LOCALAPPDATA 'RedM' }
     New-Item -ItemType Directory -Path $dir -Force | Out-Null
@@ -1730,6 +1730,22 @@ Etapa 'Jogos: RedM e biblioteca do Steam' {
     # a versão anterior deixava o instalador na área de trabalho; sai, que agora não aparece mesmo
     Remove-Item -LiteralPath (Join-Path $desktop 'RedM.exe') -Force -ErrorAction Ignore
     Passo 'sem modo silencioso: o primeiro clique baixa o jogo numa janela própria'
+
+    # FiveM: mesmo bootstrapper do RedM, outra URL. Também mora em D:\Jogos e sobrevive à formatação,
+    # e também não tem instalação silenciosa: o primeiro clique baixa o jogo numa janela própria.
+    $dirF = if ($Dados) { Join-Path $Dados 'Jogos\FiveM' } else { Join-Path $env:LOCALAPPDATA 'FiveM' }
+    New-Item -ItemType Directory -Path $dirF -Force | Out-Null
+    $exeF = Join-Path $dirF 'FiveM.exe'
+    Baixar 'https://runtime.fivem.net/client/FiveM.exe' $exeF
+    $lnkF = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\FiveM.lnk'
+    $atalhoF = (New-Object -ComObject WScript.Shell).CreateShortcut($lnkF)
+    $atalhoF.TargetPath       = $exeF
+    $atalhoF.WorkingDirectory = $dirF
+    $atalhoF.Description      = 'FiveM'
+    $atalhoF.Save()
+    Passo "FiveM em $exeF"
+    Passo "atalho em $lnkF"
+    Remove-Item -LiteralPath (Join-Path $desktop 'FiveM.exe') -Force -ErrorAction Ignore
 
     if ($Dados) {
         # Biblioteca do Steam em D:\Jogos\Steam. O Steam só cria o steamapps\libraryfolders.vdf na primeira

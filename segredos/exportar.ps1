@@ -4,14 +4,14 @@
     powershell -ExecutionPolicy Bypass -File .\exportar.ps1
 
   Tira do Chrome o que a formatacao destroi (senhas salvas) e grava CIFRADO em
-  D:\Segredos\chrome-<data>.age. A chave privada nunca fica no disco: ela vive no
+  D:\Perfil\Segredos\chrome-<data>.age. A chave privada nunca fica no disco: ela vive no
   pendrive, em dotfiles\chave.txt, e so o destinatario publico entra aqui.
 
   O texto claro NUNCA toca o disco: a saida do python vai por cano direto para o age,
   pelo cmd.exe. O pipe do PowerShell nao serve aqui, porque ele reencoda o fluxo.
 #>
 param(
-    [string] $Saida = 'D:\Segredos',
+    [string] $Saida = 'D:\Perfil\Segredos',
     # chave publica do Alexandre; a privada correspondente esta no pendrive
     [string] $Destinatario = 'age1tagd2g2de97059q926qmfrjc33ljvujnp6agmdxcmgdv5k09uc2s4t380x'
 )
