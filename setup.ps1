@@ -528,13 +528,39 @@ Etapa 'Claude Code (CLI)' {
 #   psid = série da placa, pfid = modelo dentro da série. A NVIDIA não expõe mais o lookup desses dois
 #   (o endpoint lookupValueSearch responde 404), então ficam nesta tabela; placa que não estiver aqui cai
 #   no Windows Update da etapa 26, que é lento mas funciona sozinho.
+#   dev = o DEV_xxxx do ID de hardware PCI, para achar a placa quando ela ainda está sem driver e o
+#   Win32_VideoController a mostra como "Microsoft Basic Display Adapter".
 $NvidiaProdutos = @{
-    'RTX 3090' = @{ psid = 120; pfid = 934 }
+    'RTX 3090' = @{ psid = 120; pfid = 934; dev = '2204' }
 }
 Etapa 'Driver de vídeo (NVIDIA)' {
-    $gpu = @(Get-CimInstance Win32_VideoController -ErrorAction Ignore | Where-Object { $_.Name -match 'NVIDIA' })[0]
+    # Logo depois da formatação a placa costuma estar SEM driver: o Win32_VideoController a mostra como
+    # "Microsoft Basic Display Adapter" e o -match 'NVIDIA' falha, embora a placa esteja no barramento.
+    # Foi o que aconteceu em 12/09/2026: a etapa saiu aqui, os monitores ficaram no adaptador básico e
+    # recusaram 1440p a 180 Hz. Por isso a detecção tem dois caminhos e espera o PCI terminar de enumerar:
+    # primeiro pelo nome (driver já presente); se não achar, pelo hardware (VEN_10DE na classe Display),
+    # mapeando o DEV_xxxx para a placa. Sem versão instalada, o resto trata como desatualizado e instala.
+    $gpu = $null
+    for ($t = 1; $t -le 5 -and -not $gpu; $t++) {
+        $gpu = @(Get-CimInstance Win32_VideoController -ErrorAction Ignore | Where-Object { $_.Name -match 'NVIDIA' })[0]
+        if ($gpu) { break }
+        $hw = @(Get-CimInstance Win32_PnPEntity -ErrorAction Ignore | Where-Object { $_.PNPClass -eq 'Display' -and $_.PNPDeviceID -match 'VEN_10DE&DEV_([0-9A-Fa-f]{4})' })[0]
+        if ($hw) {
+            $dev   = if ($hw.PNPDeviceID -match 'DEV_([0-9A-Fa-f]{4})') { $Matches[1] } else { '' }
+            $achado = @($NvidiaProdutos.Keys | Where-Object { $NvidiaProdutos[$_].dev -eq $dev })[0]
+            if ($achado) {
+                Passo "placa NVIDIA sem driver ainda ($($hw.Name), DEV_$dev = $achado); vou instalar o driver"
+                $gpu = [pscustomobject]@{ Name = $achado; DriverVersion = '' }   # sem versão: trata como desatualizado
+                break
+            }
+            Passo "placa NVIDIA DEV_$dev sem driver e fora da tabela; esperando ($t de 5)"
+        } else {
+            Passo "nenhuma placa NVIDIA à vista ainda; o PCI pode estar sendo enumerado ($t de 5)"
+        }
+        Start-Sleep -Seconds 4
+    }
     if (-not $gpu) {
-        Passo 'nenhuma placa NVIDIA à vista; o vídeo fica com o que o Windows Update trouxer na etapa 26'
+        Passo 'nenhuma placa NVIDIA encontrada; o vídeo fica com o que o Windows Update trouxer na etapa 26'
         return
     }
     Passo "placa: $($gpu.Name)"
