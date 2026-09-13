@@ -30,8 +30,8 @@ if (Get-Module PSReadLine) {
 }
 
 # --- atalhos, os mesmos do zsh -----------------------------------------------------------------------------
-if (Test-Path -LiteralPath 'C:\Users\Alexandre\Meu Drive\Utils\git.sh') {
-    function c { & 'C:\Program Files\Git\bin\bash.exe' 'C:\Users\Alexandre\Meu Drive\Utils\git.sh' @args }
+if (Test-Path -LiteralPath 'D:\Utils\git.sh') {
+    function c { & 'C:\Program Files\Git\bin\bash.exe' 'D:\Utils\git.sh' @args }
 } else { function c { Clear-Host } }
 function x { claude --dangerously-skip-permissions --model opus @args }
 # ls pelo eza, com ícones e pastas primeiro. Só o ls: cat continua Get-Content, que scripts usam em pipeline.

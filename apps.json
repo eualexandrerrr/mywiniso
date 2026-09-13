@@ -10,7 +10,6 @@
         { "PackageIdentifier": "Microsoft.DotNet.DesktopRuntime.9" },
         { "PackageIdentifier": "7zip.7zip" },
         { "PackageIdentifier": "Google.Chrome" },
-        { "PackageIdentifier": "Google.GoogleDrive" },
         { "PackageIdentifier": "Discord.Discord" },
         { "PackageIdentifier": "Spotify.Spotify" },
         { "PackageIdentifier": "Obsidian.Obsidian" },

@@ -1,6 +1,6 @@
 ﻿# Roda 30 s depois do logon (tarefa agendada "Startup OnLogon", criada pelo setup.ps1).
 # Maximiza o Discord, abre e fecha o Spotify, põe duas janelas do Chrome no monitor vertical
-# e faz backup do histórico do terminal em Meu Drive\Utils\TerminalHistory.
+# e faz backup do histórico do terminal em D:\Utils\TerminalHistory.
 try {
     Add-Type @"
     using System;
@@ -255,7 +255,7 @@ Start-Sleep -Milliseconds 500
 
 Write-Host "=== Backup do historico do terminal ==="
 $historySource = "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
-$historyBackup = "C:\Users\Alexandre\Meu Drive\Utils\TerminalHistory\history.txt"
+$historyBackup = "D:\Utils\TerminalHistory\history.txt"
 if (Test-Path $historySource) {
     if (Test-Path $historyBackup) {
         $backupLines = @(Get-Content $historyBackup)
