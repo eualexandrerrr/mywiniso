@@ -228,9 +228,13 @@ foreach ($par in ($aplicar | Sort-Object { -not $_.Quer.primario })) {
     else                                { $dm.dmPelsWidth = [int]$q.largura; $dm.dmPelsHeight = [int]$q.altura }
     $dm.dmDisplayFrequency = [int]$q.hz
     $dm.dmBitsPerPel = 32
-    $dm.dmPosition = New-Object MyWinIsoDisplay+POINTL
-    $dm.dmPosition.x = [int]$q.x
-    $dm.dmPosition.y = [int]$q.y
+    # POINTL e struct (tipo de valor): "$dm.dmPosition.x = ..." mexe numa COPIA e o $dm continua em 0,0. Foi
+    # assim que os dois monitores foram parar em 0,0 e o Windows, desfazendo a sobreposicao, promoveu a LG a
+    # principal. Monta-se o ponto numa variavel e so entao se grava o struct inteiro no campo.
+    $pos = New-Object MyWinIsoDisplay+POINTL
+    $pos.x = [int]$q.x
+    $pos.y = [int]$q.y
+    $dm.dmPosition = $pos
     $dm.dmFields = [MyWinIsoDisplay]::DM_BITSPERPEL -bor [MyWinIsoDisplay]::DM_PELSWIDTH -bor [MyWinIsoDisplay]::DM_PELSHEIGHT `
         -bor [MyWinIsoDisplay]::DM_DISPLAYFREQUENCY -bor [MyWinIsoDisplay]::DM_POSITION -bor [MyWinIsoDisplay]::DM_DISPLAYORIENTATION
 
