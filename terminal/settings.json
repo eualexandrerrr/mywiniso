@@ -1,163 +1,163 @@
 {
-  "$schema": "https://aka.ms/terminal-profiles-schema",
-  "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-  "copyOnSelect": true,
-  "copyFormatting": "none",
-  "initialCols": 120,
-  "initialRows": 32,
-  "theme": "dark",
-  "useAcrylicInTabRow": false,
-  "profiles": {
-    "defaults": {
-      "font": {
-        "face": "JetBrainsMono Nerd Font",
-        "size": 12
-      },
-      "colorScheme": "Catppuccin Mocha",
-      "useAcrylic": false,
-      "opacity": 100,
-      "startingDirectory": "%USERPROFILE%",
-      "historySize": 100000,
-      "scrollbarState": "hidden",
-      "padding": "14, 10",
-      "cursorShape": "filledBox"
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "copyOnSelect": true,
+    "copyFormatting": "none",
+    "initialCols": 120,
+    "initialRows": 32,
+    "theme": "dark",
+    "useAcrylicInTabRow": false,
+    "profiles": {
+        "defaults": {
+            "font": {
+                "face": "JetBrainsMono Nerd Font",
+                "size": 12
+            },
+            "colorScheme": "Catppuccin Mocha",
+            "useAcrylic": false,
+            "opacity": 100,
+            "startingDirectory": "%USERPROFILE%",
+            "historySize": 100000,
+            "scrollbarState": "hidden",
+            "padding": "14, 10",
+            "cursorShape": "filledBox"
+        },
+        "list": [
+            {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "name": "PowerShell 7",
+                "source": "Windows.Terminal.PowershellCore",
+                "hidden": false
+            },
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell",
+                "hidden": false
+            },
+            {
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "Prompt de Comando",
+                "hidden": false
+            },
+            {
+                "guid": "{7e1f9a52-0d3b-4c2a-9f11-3a5e6b7c8d02}",
+                "name": "Git Bash",
+                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -i -l",
+                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+                "hidden": false
+            }
+        ]
     },
-    "list": [
-      {
-        "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-        "name": "PowerShell 7",
-        "source": "Windows.Terminal.PowershellCore",
-        "hidden": false
-      },
-      {
-        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-        "name": "Windows PowerShell",
-        "hidden": false
-      },
-      {
-        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-        "name": "Prompt de Comando",
-        "hidden": false
-      },
-      {
-        "guid": "{7e1f9a52-0d3b-4c2a-9f11-3a5e6b7c8d02}",
-        "name": "Git Bash",
-        "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -i -l",
-        "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
-        "hidden": false
-      }
+    "actions": [
+        {
+            "command": {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+c"
+        },
+        {
+            "command": "paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "command": "newTab",
+            "keys": "ctrl+shift+t"
+        },
+        {
+            "command": "closePane",
+            "keys": "ctrl+shift+w"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "right",
+                "splitMode": "duplicate"
+            },
+            "keys": "ctrl+shift+enter"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "down",
+                "splitMode": "duplicate"
+            },
+            "keys": "ctrl+shift+d"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "left"
+            },
+            "keys": "ctrl+shift+h"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "right"
+            },
+            "keys": "ctrl+shift+l"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "up"
+            },
+            "keys": "ctrl+shift+k"
+        },
+        {
+            "command": {
+                "action": "moveFocus",
+                "direction": "down"
+            },
+            "keys": "ctrl+shift+j"
+        },
+        {
+            "command": {
+                "action": "adjustFontSize",
+                "delta": 1
+            },
+            "keys": "ctrl+plus"
+        },
+        {
+            "command": {
+                "action": "adjustFontSize",
+                "delta": -1
+            },
+            "keys": "ctrl+minus"
+        },
+        {
+            "command": "resetFontSize",
+            "keys": "ctrl+0"
+        }
+    ],
+    "schemes": [
+        {
+            "name": "Catppuccin Mocha",
+            "background": "#0D0D0F",
+            "foreground": "#CDD6F4",
+            "cursorColor": "#F5E0DC",
+            "selectionBackground": "#2A2A33",
+            "black": "#45475A",
+            "red": "#F38BA8",
+            "green": "#A6E3A1",
+            "yellow": "#F9E2AF",
+            "blue": "#89B4FA",
+            "purple": "#F5C2E7",
+            "cyan": "#94E2D5",
+            "white": "#BAC2DE",
+            "brightBlack": "#585B70",
+            "brightRed": "#F38BA8",
+            "brightGreen": "#A6E3A1",
+            "brightYellow": "#F9E2AF",
+            "brightBlue": "#89B4FA",
+            "brightPurple": "#F5C2E7",
+            "brightCyan": "#94E2D5",
+            "brightWhite": "#A6ADC8"
+        }
     ]
-  },
-  "actions": [
-    {
-      "command": {
-        "action": "copy",
-        "singleLine": false
-      },
-      "keys": "ctrl+c"
-    },
-    {
-      "command": "paste",
-      "keys": "ctrl+v"
-    },
-    {
-      "command": "find",
-      "keys": "ctrl+shift+f"
-    },
-    {
-      "command": "newTab",
-      "keys": "ctrl+shift+t"
-    },
-    {
-      "command": "closePane",
-      "keys": "ctrl+shift+w"
-    },
-    {
-      "command": {
-        "action": "splitPane",
-        "split": "right",
-        "splitMode": "duplicate"
-      },
-      "keys": "ctrl+shift+enter"
-    },
-    {
-      "command": {
-        "action": "splitPane",
-        "split": "down",
-        "splitMode": "duplicate"
-      },
-      "keys": "ctrl+shift+d"
-    },
-    {
-      "command": {
-        "action": "moveFocus",
-        "direction": "left"
-      },
-      "keys": "ctrl+shift+h"
-    },
-    {
-      "command": {
-        "action": "moveFocus",
-        "direction": "right"
-      },
-      "keys": "ctrl+shift+l"
-    },
-    {
-      "command": {
-        "action": "moveFocus",
-        "direction": "up"
-      },
-      "keys": "ctrl+shift+k"
-    },
-    {
-      "command": {
-        "action": "moveFocus",
-        "direction": "down"
-      },
-      "keys": "ctrl+shift+j"
-    },
-    {
-      "command": {
-        "action": "adjustFontSize",
-        "delta": 1
-      },
-      "keys": "ctrl+plus"
-    },
-    {
-      "command": {
-        "action": "adjustFontSize",
-        "delta": -1
-      },
-      "keys": "ctrl+minus"
-    },
-    {
-      "command": "resetFontSize",
-      "keys": "ctrl+0"
-    }
-  ],
-  "schemes": [
-    {
-      "name": "Catppuccin Mocha",
-      "background": "#1E1E2E",
-      "foreground": "#CDD6F4",
-      "cursorColor": "#F5E0DC",
-      "selectionBackground": "#585B70",
-      "black": "#45475A",
-      "red": "#F38BA8",
-      "green": "#A6E3A1",
-      "yellow": "#F9E2AF",
-      "blue": "#89B4FA",
-      "purple": "#F5C2E7",
-      "cyan": "#94E2D5",
-      "white": "#BAC2DE",
-      "brightBlack": "#585B70",
-      "brightRed": "#F38BA8",
-      "brightGreen": "#A6E3A1",
-      "brightYellow": "#F9E2AF",
-      "brightBlue": "#89B4FA",
-      "brightPurple": "#F5C2E7",
-      "brightCyan": "#94E2D5",
-      "brightWhite": "#A6ADC8"
-    }
-  ]
 }
