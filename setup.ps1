@@ -1973,7 +1973,7 @@ Etapa 'Barra de tarefas e tarefa de logon' {
     foreach ($n in 'Favorites', 'FavoritesResolve', 'FavoritesChanges', 'FavoritesVersion') {
         Remove-ItemProperty -Path $taskband -Name $n -ErrorAction Ignore      # força o Explorer a reler o layout
     }
-    Passo 'pinos: Explorer, Firefox, Discord, VS Code, WinSCP, Chrome (aparecem quando o Explorer reiniciar)'
+    Passo 'pinos: Chrome, RedM, Discord, VS Code (aparecem quando o Explorer reiniciar)'
     # o script fica no próprio clone: o git pull atualiza a tarefa, e não depende do Google Drive estar sincronizado
     $onlogon = Join-Path $aqui 'startup\startup-onlogon.ps1'
     $acao      = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$onlogon`""
